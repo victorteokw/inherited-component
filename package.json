@@ -15,12 +15,12 @@
     "type": "git",
     "url": "git+https://github.com/victorteokw/inherited-component.git"
   },
-  "author": "Victor Teo",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/victorteokw/inherited-component/issues"
   },
   "homepage": "https://github.com/victorteokw/inherited-component#readme",
+  "author": "Victor Teo <yeannylam@gmail.com>",
+  "license": "MIT",
   "scripts": {
     "prepublish": "tsc",
     "pretest": "tsc",
