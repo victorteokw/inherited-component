@@ -1,0 +1,2 @@
+Inherited Component
+===================
