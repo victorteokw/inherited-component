@@ -1,26 +1,16 @@
-import React, { HTMLProps } from "react"
+import type { HTMLProps, JSX } from "react"
 
 type ClassedCreator<P> = {
-  (extractor: (props: P) => string): (props: P) => React.JSX.Element
-  <T>(extractor: (props: T & P) => string): (props: T & P) => React.JSX.Element
+  (extractor: (props: P) => string): (props: P) => JSX.Element
+  <T>(extractor: (props: T & P) => string): (props: T & P) => JSX.Element
   (strings: TemplateStringsArray, ...interpolations: ((props: P) => string)[]): (props: P) => React.JSX.Element
   <T>(strings: TemplateStringsArray, ...interpolations: ((props: T & P) => string)[]): (props: T & P) => React.JSX.Element
 }
 
-export interface Classed {
+export type Classed = {
   <P>(component: (props: P) => React.JSX.Element): ClassedCreator<P>
-  /**
-   * ### div
-   *
-   * Create a div element.
-   */
-  div: ClassedCreator<HTMLProps<HTMLDivElement>>
-  /**
-   * ### span
-   *
-   * Create a span element.
-   */
-  span: ClassedCreator<HTMLProps<HTMLSpanElement>>
+} & {
+  readonly [N in keyof JSX.IntrinsicElements]: ClassedCreator<JSX.IntrinsicElements[N]>
 }
 
 /**
@@ -36,20 +26,10 @@ type InheritedCreator<P> = {
   (props: P): (props: P) => React.JSX.Element
 }
 
-export interface Inherited {
+export type Inherited = {
   <P>(component: (props: P) => React.JSX.Element): InheritedCreator<P>
-  /**
-   * ### div
-   *
-   * Create a div element.
-   */
-  div: InheritedCreator<HTMLProps<HTMLDivElement>>
-  /**
-   * ### span
-   *
-   * Create a span element.
-   */
-  span: InheritedCreator<HTMLProps<HTMLSpanElement>>
+} & {
+  readonly [N in keyof JSX.IntrinsicElements]: InheritedCreator<JSX.IntrinsicElements[N]>
 }
 
 /**
