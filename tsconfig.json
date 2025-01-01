@@ -9,11 +9,15 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "outDir": "./dist",
-    "allowJs": true,
     "declaration": true,
     "declarationDir": "./dist",
     "declarationMap": true,
   },
-  "include": ["src/index.d.ts", "src/index.js", "src/test.ts"],
+  "include": [
+    "src/index.js",
+    "src/index.d.ts",
+    "src/test/server.ts",
+    "src/test/client.ts"
+  ],
   "exclude": ["node_modules", "dist"]
 }

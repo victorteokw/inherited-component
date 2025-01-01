@@ -1,4 +1,4 @@
-import { classed, inherited } from '.'
+import { classed, inherited } from '..'
 import { createElement, HTMLProps } from 'react'
 import { renderToString } from 'react-dom/server'
 import test from 'ava'
@@ -37,7 +37,7 @@ test("classed for classed component with multiple inheritances", (t) => {
 })
 
 test("classed for HTML component with props", (t) => {
-  const component = classed.div((props) => `foo bar ${props.arg}`)
+  const component = classed.div<{ arg: string }>((props) => `foo bar ${props.arg}`)
   const element = createElement(component, { arg: "baz" })
   const result = renderToString(element)
   t.is(result, '<div class="foo bar baz" arg="baz"></div>')
@@ -45,7 +45,7 @@ test("classed for HTML component with props", (t) => {
 
 test("classed for HTML component with props, alt syntax", (t) => {
 
-  const component = classed.div`foo ${(props) => props.arg} baz`
+  const component = classed.div<{ arg: string }>`foo ${(props) => props.arg} baz`
   const element = createElement(component, { arg: "bar" })
   const result = renderToString(element)
   t.is(result, '<div class="foo bar baz" arg="bar"></div>')
@@ -53,7 +53,7 @@ test("classed for HTML component with props, alt syntax", (t) => {
 
 test("classed for React component with props", (t) => {
   const base = (props: HTMLProps<HTMLDivElement>) => createElement('div', props)
-  const component = classed<{ arg: string }, HTMLProps<HTMLDivElement>>(base)((props) => `foo ${props.arg}`)
+  const component = classed(base)<{ arg: string }>((props) => `foo ${props.arg}`)
   const element = createElement(component, { arg: "bar" })
   const result = renderToString(element)
   t.is(result, '<div class="foo bar" arg="bar"></div>')
@@ -61,23 +61,23 @@ test("classed for React component with props", (t) => {
 
 test("classed for React component with props, alt syntax", (t) => {
   const base = (props: HTMLProps<HTMLDivElement>) => createElement('div', props)
-  const component = classed<{ arg: string }, HTMLProps<HTMLDivElement>>(base)`foo ${(props) => props.arg} baz`
+  const component = classed(base)<{ arg: string }>`foo ${(props) => props.arg} baz`
   const element = createElement(component, { arg: "bar" })
   const result = renderToString(element)
   t.is(result, '<div class="foo bar baz" arg="bar"></div>')
 })
 
 test("classed for classed component with props", (t) => {
-  const base = classed.div((props) => `foo ${props.base}`)
-  const component = classed(base)((props) => `bar ${props.arg}`)
+  const base = classed.div<{ base: string }>((props) => `foo ${props.base}`)
+  const component = classed(base)<{ arg: string }>((props) => `bar ${props.arg}`)
   const element = createElement(component, { base: "base", arg: "arg" })
   const result = renderToString(element)
   t.is(result, '<div class="foo base bar arg" base="base" arg="arg"></div>')
 })
 
 test("classed for classed component with props, alt syntax", (t) => {
-  const base = classed.div`foo ${(props) => props.base}`
-  const component = classed(base)`bar ${(props) => props.arg}`
+  const base = classed.div<{ base: string }>`foo ${(props) => props.base}`
+  const component = classed(base)<{ arg: string }>`bar ${(props) => props.arg}`
   const element = createElement(component, { base: "base", arg: "arg" })
   const result = renderToString(element)
   t.is(result, '<div class="foo base bar arg" base="base" arg="arg"></div>')
@@ -86,10 +86,10 @@ test("classed for classed component with props, alt syntax", (t) => {
 test(
   "classed for classed component with props, with multiple inheritances",
   (t) => {
-  const base0 = classed.div((props) => `${props.base0}`)
-  const base1 = classed(base0)((props) => `${props.base1}`)
-  const base = classed(base1)((props) => `${props.base2}`)
-  const component = classed(base)((props) => `bar ${props.arg}`)
+  const base0 = classed.div<{ base0: string }>((props) => `${props.base0}`)
+  const base1 = classed(base0)<{ base1: string }>((props) => `${props.base1}`)
+  const base = classed(base1)<{ base2: string }>((props) => `${props.base2}`)
+  const component = classed(base)<{ arg: string }>((props) => `bar ${props.arg}`)
   const element = createElement(component, {
     base0: "foo0", base1: "foo1", base2: "foo2", arg: "arg"
   })
@@ -100,10 +100,10 @@ test(
 test(
   "classed for classed component with props, with multiple inheritances, alt syntax",
   (t) => {
-  const base0 = classed.div`${(props) => props.base0}`
-  const base1 = classed(base0)`${(props) => props.base1}`
-  const base = classed(base1)`${(props) => props.base2}`
-  const component = classed(base)`bar ${(props) => props.arg}`
+  const base0 = classed.div<{ base0: string }>`${(props) => props.base0}`
+  const base1 = classed(base0)<{ base1: string }>`${(props) => props.base1}`
+  const base = classed(base1)<{ base2: string }>`${(props) => props.base2}`
+  const component = classed(base)<{ arg: string }>`bar ${(props) => props.arg}`
   const element = createElement(component, {
     base0: "foo0", base1: "foo1", base2: "foo2", arg: "arg"
   })
@@ -112,26 +112,26 @@ test(
 })
 
 test("inherited for HTML component", (t) => {
-  const component = inherited.div({ key0: 'value0' })
+  const component = inherited.div({ id: 'value0' })
   const element = createElement(component)
   const result = renderToString(element)
-  t.is(result, '<div key0="value0"></div>')
+  t.is(result, '<div id="value0"></div>')
 })
 
 test("inherited for React component", (t) => {
   const base = (props: HTMLProps<HTMLDivElement>) => createElement('div', props)
-  const component = inherited<{ key0: string }, HTMLProps<HTMLDivElement>>(base)({ key0: 'value0' })
+  const component = inherited(base)({ id: 'value0' })
   const element = createElement(component)
   const result = renderToString(element)
-  t.is(result, '<div key0="value0"></div>')
+  t.is(result, '<div id="value0"></div>')
 })
 
 test("inherited for inherited component", (t) => {
-  const base = inherited.div({ key0: 'value0' })
-  const component = inherited(base)({ key1: 'value1' })
+  const base = inherited.div({ id: 'value0' })
+  const component = inherited(base)({ classID: 'value1' })
   const element = createElement(component)
   const result = renderToString(element)
-  t.is(result, '<div key0="value0" key1="value1"></div>')
+  t.is(result, '<div id="value0" classID="value1"></div>')
 })
 
 test("inherited for inherited component with multiple inheritances", (t) => {
@@ -145,42 +145,42 @@ test("inherited for inherited component with multiple inheritances", (t) => {
 })
 
 test("inherited for HTML component with props", (t) => {
-  const component = inherited.div(
-    (props) => ({ key0: props.key0 }))
+  const component = inherited.div<{ key0: string }>(
+    (props) => ({ id: props.key0 }))
   const element = createElement(component, { key0: 'value0' })
   const result = renderToString(element)
-  t.is(result, '<div key0="value0"></div>')
+  t.is(result, '<div id="value0" key0="value0"></div>')
 })
 
 test("inherited for React component with props", (t) => {
   const base = (props: HTMLProps<HTMLDivElement>) => createElement('div', props)
-  const component = inherited<{key0: string}, HTMLProps<HTMLDivElement>>(base)(
-    (props) => ({ key0: props.key0 }))
+  const component = inherited(base)<{key0: string}>(
+    (props) => ({ id: props.key0 }))
   const element = createElement(component, { key0: 'value0' })
   const result = renderToString(element)
-  t.is(result, '<div key0="value0"></div>')
+  t.is(result, '<div id="value0" key0="value0"></div>')
 })
 
 test("inherited for inherited component with props", (t) => {
-  const base = inherited.div(
-    (props) => ({ key0: props.key0 }))
-  const component = inherited(base)(
-    (props) => ({ key1: props.key1 }))
+  const base = inherited.div<{ key0: string }>(
+    (props) => ({ id: props.key0 }))
+  const component = inherited(base)<{ key1: string }>(
+    (props) => ({ className: props.key1 }))
   const element = createElement(component, { key0: 'value0', key1: 'value1' })
   const result = renderToString(element)
-  t.is(result, '<div key0="value0" key1="value1"></div>')
+  t.is(result, '<div id="value0" class="value1" key0="value0" key1="value1"></div>')
 })
 
 test(
   "inherited for inherited component with props, with multiple inheritances",
   (t) => {
-  const base0 = inherited.div(
+  const base0 = inherited.div<{ foo0: string }>(
     (props) => ({ className: props.foo0 }))
-  const base1 = inherited(base0)(
+  const base1 = inherited(base0)<{ foo1: string }>(
     (props) => ({ className: props.foo1 }))
-  const base = inherited(base1)(
+  const base = inherited(base1)<{ foo2: string }>(
     (props) => ({ className: props.foo2 }))
-  const component = inherited(base)(
+  const component = inherited(base)<{ arg: string }>(
     (props) => ({ className: props.arg }))
   const element = createElement(component, {
     foo0: "foo0", foo1: "foo1", foo2: "foo2", arg: "bar"

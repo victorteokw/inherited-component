@@ -1,12 +1,12 @@
 import React, { HTMLProps } from "react"
 
-type ClassedCreator<Props> = {
-  (extractor: (props: Props) => string): (props: Props) => React.JSX.Element
-  (strings: TemplateStringsArray, ...interpolations: ((props: Props) => string)[]): (props: Props) => React.JSX.Element
+type ClassedCreator<P> = {
+  <T extends {}>(extractor: (props: T & P) => string): (props: Partial<T> & P) => React.JSX.Element
+  <T extends {}>(strings: TemplateStringsArray, ...interpolations: ((props: T & P) => string)[]): (props: Partial<T> & P) => React.JSX.Element
 }
 
 export interface Classed {
-  <NewProps, Props>(component: (props: Props) => React.JSX.Element): ClassedCreator<NewProps & Props>
+  <P>(component: (props: P) => React.JSX.Element): ClassedCreator<P>
   /**
    * ### div
    *
@@ -28,13 +28,13 @@ export interface Classed {
  */
 export const classed: Classed
 
-type InheritedCreator<Props> = {
-  (extractor: (props: Props) => Props): (props: Props) => React.JSX.Element
-  (props: Props): (props: Props) => React.JSX.Element
+type InheritedCreator<P> = {
+  <T extends {}>(extractor: (props: T & P) => P): (props: Partial<T> & P) => React.JSX.Element
+  (props: P): (props: P) => React.JSX.Element
 }
 
 export interface Inherited {
-  <NewProps, Props>(component: (props: Props) => React.JSX.Element): InheritedCreator<NewProps & Props>
+  <P>(component: (props: P) => React.JSX.Element): InheritedCreator<P>
   /**
    * ### div
    *

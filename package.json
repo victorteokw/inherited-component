@@ -1,6 +1,6 @@
 {
   "name": "inherited-component",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Classed component with props and attributes",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -42,7 +42,8 @@
   },
   "ava": {
     "files": [
-      "dist/test.js"
+      "dist/server.js",
+      "dist/client.js"
     ]
   }
 }
