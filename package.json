@@ -1,6 +1,6 @@
 {
   "name": "inherited-component",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Classed component with props and attributes",
   "main": "src/index.js",
   "types": "src/index.d.ts",
@@ -27,7 +27,7 @@
     "test-cov": "c8 ava"
   },
   "dependencies": {
-    "react": "^19.0.0",
+    "react": "18 - 19",
     "react-merge-props": "^1.0.0"
   },
   "devDependencies": {
