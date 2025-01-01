@@ -1,7 +1,7 @@
 Inherited Component
 ===================
 
-Classed component with custom props and attributes.
+Classed component with custom props and attributes. NOT STABLE YET. DO NOT USE.
 
 ## Installation
 
