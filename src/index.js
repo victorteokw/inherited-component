@@ -56,7 +56,6 @@ function inheritedCreator(parent) {
     const component = function (props) {
       return createElement(parent, mergeProps(propsExtractor(props), props))
     }
-    component.propsExtractor = propsExtractor
     return component
   }
 }
@@ -78,7 +77,6 @@ function classedCreator(parent) {
     const component = function (props) {
       return createElement(parent, mergeProps(propsExtractor(props), props))
     }
-    component.propsExtractor = propsExtractor
     return component
   }
 }
