@@ -188,3 +188,11 @@ test(
   const result = renderToString(element)
   t.is(result, '<div class="foo0 foo1 foo2 bar" foo0="foo0" foo1="foo1" foo2="foo2" arg="bar"></div>')
 })
+
+test("classed with transient props", (t) => {
+
+})
+
+test("inherited with transient props", (t) => {
+
+})

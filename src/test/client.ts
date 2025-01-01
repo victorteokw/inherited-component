@@ -231,3 +231,11 @@ test(
   t.is(div.getAttribute("foo2"), "foo2")
   t.is(div.getAttribute("arg"), "bar")
 })
+
+test("classed with transient props", (t) => {
+
+})
+
+test("inherited with transient props", (t) => {
+
+})

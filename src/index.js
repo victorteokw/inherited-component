@@ -1,6 +1,16 @@
 const { createElement } = require('react')
 const { mergeProps } = require('react-merge-props')
 
+function removeTransientProps(props) {
+  const result = {}
+  for (const key in props) {
+    if (!key.startsWith("$")) {
+      result[key] = props[key]
+    }
+  }
+  return result
+}
+
 function createStaticExtractor(props) {
   return function() {
     return props
@@ -52,11 +62,12 @@ function originalInherited(parent) {
   return inheritedCreator(parent)
 }
 
-function inheritedCreator(parent) {
+function inheritedCreator(parent, filter = false) {
   return function(propsOrFunction) {
     const propsExtractor = extractorFromFunctionOrObject(propsOrFunction)
     const component = function (props) {
-      return createElement(parent, mergeProps(propsExtractor(props), props))
+      props = mergeProps(props, propsExtractor(props))
+      return createElement(parent, filter ? removeTransientProps(props) : props)
     }
     return component
   }
@@ -64,7 +75,7 @@ function inheritedCreator(parent) {
 
 const inherited = new Proxy(originalInherited, {
   get(_target, name, _receiver) {
-    return inheritedCreator(name)
+    return inheritedCreator(name, true)
   }
 })
 
@@ -72,12 +83,13 @@ function originalClassed(parent) {
   return classedCreator(parent)
 }
 
-function classedCreator(parent) {
+function classedCreator(parent, filter = false) {
   return function(...args) {
     const taggedOrFunction = typeof args[0] === 'function' ? args[0] : args
     const propsExtractor = extractorFromTaggedOrFunction(taggedOrFunction)
     const component = function (props) {
-      return createElement(parent, mergeProps(propsExtractor(props), props))
+      props = mergeProps(props, propsExtractor(props))
+      return createElement(parent, filter ? removeTransientProps(props) : props)
     }
     return component
   }
@@ -85,7 +97,7 @@ function classedCreator(parent) {
 
 const classed = new Proxy(originalClassed, {
   get(_target, name, _receiver) {
-    return classedCreator(name)
+    return classedCreator(name, true)
   }
 })
 

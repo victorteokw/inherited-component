@@ -1,8 +1,12 @@
 import type { HTMLProps, JSX } from "react"
 
+type ComponentConfig = {
+  unforwardable: string[]
+}
+
 type ClassedCreator<P> = {
   (extractor: (props: P) => string): (props: P) => JSX.Element
-  <T>(extractor: (props: T & P) => string): (props: T & P) => JSX.Element
+  <T>(extractor: (props: T & P) => string, config?: ComponentConfig): (props: T & P) => JSX.Element
   (strings: TemplateStringsArray, ...interpolations: ((props: P) => string)[]): (props: P) => JSX.Element
   <T>(strings: TemplateStringsArray, ...interpolations: ((props: T & P) => string)[]): (props: T & P) => JSX.Element
 }
@@ -22,7 +26,7 @@ export const classed: Classed
 
 type InheritedCreator<P> = {
   (extractor: (props: P) => P): (props: P) => JSX.Element
-  <T>(extractor: (props: T & P) => Partial<P>): (props: T & P) => JSX.Element
+  <T>(extractor: (props: T & P) => Partial<P>, config?: ComponentConfig): (props: T & P) => JSX.Element
   (props: P): (props: P) => JSX.Element
 }
 
