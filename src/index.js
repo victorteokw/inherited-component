@@ -15,15 +15,17 @@ function extractorFromFunctionOrObject(propsOrFunction) {
   }
 }
 
-function extractInterleaved(staticLiterals, functions) {
+function extractInterleaved(literals, functions) {
   return function(props) {
+    const literalsCopy = [...literals]
+    const functionsCopy = [...functions]
     const slices = []
     while (true) {
-      const literal = staticLiterals.shift()
+      const literal = literalsCopy.shift()
       if (literal !== undefined) {
         slices.push(literal)
       }
-      const func = functions.shift()
+      const func = functionsCopy.shift()
       if (func !== undefined) {
         slices.push(func(props))
       }
@@ -39,9 +41,9 @@ function extractorFromTaggedOrFunction(taggedOrFunction) {
   if (typeof taggedOrFunction === 'function') {
     return (props) => ({ className: taggedOrFunction(props) })
   } else {
-    const staticLiterals = [...taggedOrFunction[0]]
+    const literals = [...taggedOrFunction[0]]
     const functions = [...taggedOrFunction.slice(1)]
-    const classNameExtractor = extractInterleaved(staticLiterals, functions)
+    const classNameExtractor = extractInterleaved(literals, functions)
     return (props) => ({ className: classNameExtractor(props) })
   }
 }

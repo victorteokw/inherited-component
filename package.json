@@ -1,6 +1,6 @@
 {
   "name": "inherited-component",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "description": "Classed component with props and attributes",
   "main": "src/index.js",
   "types": "src/index.d.ts",
