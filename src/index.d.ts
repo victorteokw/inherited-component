@@ -1,8 +1,10 @@
 import React, { HTMLProps } from "react"
 
 type ClassedCreator<P> = {
-  <T extends {}>(extractor: (props: T & P) => string): (props: Partial<T> & P) => React.JSX.Element
-  <T extends {}>(strings: TemplateStringsArray, ...interpolations: ((props: T & P) => string)[]): (props: Partial<T> & P) => React.JSX.Element
+  (extractor: (props: P) => string): (props: P) => React.JSX.Element
+  <T>(extractor: (props: T & P) => string): (props: Partial<T> & P) => React.JSX.Element
+  (strings: TemplateStringsArray, ...interpolations: ((props: P) => string)[]): (props: P) => React.JSX.Element
+  <T>(strings: TemplateStringsArray, ...interpolations: ((props: T & P) => string)[]): (props: Partial<T> & P) => React.JSX.Element
 }
 
 export interface Classed {
@@ -29,7 +31,8 @@ export interface Classed {
 export const classed: Classed
 
 type InheritedCreator<P> = {
-  <T extends {}>(extractor: (props: T & P) => P): (props: Partial<T> & P) => React.JSX.Element
+  (extractor: (props: P) => P): (props: P) => React.JSX.Element
+  <T>(extractor: (props: T & P) => P): (props: Partial<T> & P) => React.JSX.Element
   (props: P): (props: P) => React.JSX.Element
 }
 
