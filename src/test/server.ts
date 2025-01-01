@@ -128,10 +128,10 @@ test("inherited for React component", (t) => {
 
 test("inherited for inherited component", (t) => {
   const base = inherited.div({ id: 'value0' })
-  const component = inherited(base)({ classID: 'value1' })
+  const component = inherited(base)({ className: 'value1' })
   const element = createElement(component)
   const result = renderToString(element)
-  t.is(result, '<div id="value0" classID="value1"></div>')
+  t.is(result, '<div id="value0" className="value1"></div>')
 })
 
 test("inherited for inherited component with multiple inheritances", (t) => {
