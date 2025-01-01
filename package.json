@@ -1,6 +1,6 @@
 {
   "name": "inherited-component",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Classed component with props and attributes",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -22,7 +22,6 @@
   "author": "Victor Teo <yeannylam@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "prepublish": "tsc",
     "pretest": "tsc",
     "pretest-cov": "tsc",
     "test": "ava",
