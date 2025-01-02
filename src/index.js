@@ -1,6 +1,16 @@
 const { createElement } = require('react')
 const { mergeProps } = require('react-merge-props')
 
+function removeUnforwardableProps(props, unforwardables) {
+  const result = {}
+  for (const key in props) {
+    if (!unforwardables.includes(key)) {
+      result[key] = props[key]
+    }
+  }
+  return result
+}
+
 function removeTransientProps(props) {
   const result = {}
   for (const key in props) {
@@ -62,12 +72,15 @@ function originalInherited(parent) {
   return inheritedCreator(parent)
 }
 
-function inheritedCreator(parent, filter = false) {
-  return function(propsOrFunction) {
+function inheritedCreator(parent, filterTransientProps = false) {
+  return function(propsOrFunction, config) {
     const propsExtractor = extractorFromFunctionOrObject(propsOrFunction)
     const component = function (props) {
       props = mergeProps(propsExtractor(props), props)
-      return createElement(parent, filter ? removeTransientProps(props) : props)
+      if (config && config.unforwardableProps) {
+        props = removeUnforwardableProps(props, config.unforwardableProps)
+      }
+      return createElement(parent, filterTransientProps ? removeTransientProps(props) : props)
     }
     return component
   }
@@ -83,13 +96,16 @@ function originalClassed(parent) {
   return classedCreator(parent)
 }
 
-function classedCreator(parent, filter = false) {
+function classedCreator(parent, filterTransientProps = false) {
   return function(...args) {
-    const taggedOrFunction = typeof args[0] === 'function' ? args[0] : args
+    const [taggedOrFunction, config] = typeof args[0] === 'function' ? [args[0], args[1]] : [args, undefined]
     const propsExtractor = extractorFromTaggedOrFunction(taggedOrFunction)
     const component = function (props) {
       props = mergeProps(propsExtractor(props), props)
-      return createElement(parent, filter ? removeTransientProps(props) : props)
+      if (config && config.unforwardableProps) {
+        props = removeUnforwardableProps(props, config.unforwardableProps)
+      }
+      return createElement(parent, filterTransientProps ? removeTransientProps(props) : props)
     }
     return component
   }

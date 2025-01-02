@@ -216,3 +216,20 @@ test("inherited with transient props", (t) => {
   const result = renderToString(element)
   t.is(result, '<div class="foo0 foo1 foo2 bar"></div>')
 })
+
+test("classed with unforwardable props", (t) => {
+  const component = classed.div<{ foo0: string }>(
+    (props) => `${props.foo0}`,
+    { unforwardableProps: ['foo0']})
+  const element = createElement(component, { "foo0": "flex" })
+  const result = renderToString(element)
+  t.is(result, '<div class="flex"></div>')
+})
+
+test("inherited with unforwardable props", (t) => {
+  const component = inherited.div<{ foo0: string }>(
+    (props) => ({ className: props.foo0 }), { unforwardableProps: ['foo0'] })
+  const element = createElement(component, { "foo0": "flex" })
+  const result = renderToString(element)
+  t.is(result, '<div class="flex"></div>')
+})
