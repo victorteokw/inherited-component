@@ -66,7 +66,7 @@ function inheritedCreator(parent, filter = false) {
   return function(propsOrFunction) {
     const propsExtractor = extractorFromFunctionOrObject(propsOrFunction)
     const component = function (props) {
-      props = mergeProps(props, propsExtractor(props))
+      props = mergeProps(propsExtractor(props), props)
       return createElement(parent, filter ? removeTransientProps(props) : props)
     }
     return component
@@ -88,7 +88,7 @@ function classedCreator(parent, filter = false) {
     const taggedOrFunction = typeof args[0] === 'function' ? args[0] : args
     const propsExtractor = extractorFromTaggedOrFunction(taggedOrFunction)
     const component = function (props) {
-      props = mergeProps(props, propsExtractor(props))
+      props = mergeProps(propsExtractor(props), props)
       return createElement(parent, filter ? removeTransientProps(props) : props)
     }
     return component

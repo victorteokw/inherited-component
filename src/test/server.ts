@@ -131,7 +131,7 @@ test("inherited for inherited component", (t) => {
   const component = inherited(base)({ className: 'value1' })
   const element = createElement(component)
   const result = renderToString(element)
-  t.is(result, '<div id="value0" className="value1"></div>')
+  t.is(result, '<div id="value0" class="value1"></div>')
 })
 
 test("inherited for inherited component with multiple inheritances", (t) => {
@@ -190,9 +190,29 @@ test(
 })
 
 test("classed with transient props", (t) => {
-
+  const base0 = classed.div<{ $base0: string }>((props) => `${props.$base0}`)
+  const base1 = classed(base0)<{ $base1: string }>((props) => `${props.$base1}`)
+  const base = classed(base1)<{ $base2: string }>((props) => `${props.$base2}`)
+  const component = classed(base)<{ $arg: string }>((props) => `bar ${props.$arg}`)
+  const element = createElement(component, {
+    $base0: "foo0", $base1: "foo1", $base2: "foo2", $arg: "arg"
+  })
+  const result = renderToString(element)
+  t.is(result, '<div class="foo0 foo1 foo2 bar arg"></div>')
 })
 
 test("inherited with transient props", (t) => {
-
+  const base0 = inherited.div<{ $foo0: string }>(
+    (props) => ({ className: props.$foo0 }))
+  const base1 = inherited(base0)<{ $foo1: string }>(
+    (props) => ({ className: props.$foo1 }))
+  const base = inherited(base1)<{ $foo2: string }>(
+    (props) => ({ className: props.$foo2 }))
+  const component = inherited(base)<{ $arg: string }>(
+    (props) => ({ className: props.$arg }))
+  const element = createElement(component, {
+    $foo0: "foo0", $foo1: "foo1", $foo2: "foo2", $arg: "bar"
+  })
+  const result = renderToString(element)
+  t.is(result, '<div class="foo0 foo1 foo2 bar"></div>')
 })
