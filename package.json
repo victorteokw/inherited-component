@@ -45,7 +45,8 @@
   "ava": {
     "files": [
       "dist/server.js",
-      "dist/client.js"
+      "dist/client.js",
+      "dist/transform.js"
     ]
   }
 }

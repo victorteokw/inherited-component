@@ -1,8 +1,8 @@
 import "global-jsdom/register"
-import { classed, inherited } from '..'
+import test from 'ava'
 import { createElement, HTMLProps } from 'react'
 import { render } from '@testing-library/react'
-import test from 'ava'
+import { classed, inherited } from '..'
 
 test("classed for HTML component", (t) => {
   const component = classed.div`foo bar`

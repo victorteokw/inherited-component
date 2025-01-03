@@ -14,10 +14,9 @@
     "declarationMap": true,
   },
   "include": [
-    "src/index.js",
-    "src/index.d.ts",
     "src/test/server.ts",
-    "src/test/client.ts"
+    "src/test/client.ts",
+    "src/test/transform.ts"
   ],
   "exclude": ["node_modules", "dist"]
 }
