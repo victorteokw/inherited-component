@@ -1,14 +1,14 @@
 {
   "name": "inherited-component",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Classed component with props and attributes",
   "main": "src/index.js",
   "types": "src/index.d.ts",
   "files": [
-    "src/index.js",
-    "src/index.d.ts",
     "LICENSE",
-    "README.md"
+    "README.md",
+    "src/*.js",
+    "src/*.d.ts"
   ],
   "repository": {
     "type": "git",
