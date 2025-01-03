@@ -5,9 +5,14 @@ import type {
   ComponentTransformerWithAdditionalProps
 } from './transformer'
 
+export type AcceptClassName = {
+  className?: string
+}
+
 type WithClasses = {
   <P>(extractor: (props: P) => string): ComponentTransformer<P>
   <T, P>(extractor: (props: T & P) => string, config?: ComponentConfig<T & P>): ComponentTransformerWithAdditionalProps<T, P>
+  (strings: TemplateStringsArray): ComponentTransformer<AcceptClassName>
   <P>(strings: TemplateStringsArray, ...interpolations: ((props: P) => string)[]): ComponentTransformer<P>
   <T, P>(strings: TemplateStringsArray, ...interpolations: ((props: T & P) => string)[]): ComponentTransformerWithAdditionalProps<T, P>
 }
