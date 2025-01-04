@@ -1,6 +1,6 @@
 import "global-jsdom/register"
 import test from 'ava'
-import { createElement, HTMLProps } from 'react'
+import { createElement, HTMLProps, DetailedHTMLProps, HTMLAttributes } from 'react'
 import { render } from '@testing-library/react'
 import { classed, inherited } from '..'
 
@@ -12,7 +12,7 @@ test("classed for HTML component", (t) => {
 })
 
 test("classed for React component", (t) => {
-  const base = (props: HTMLProps<HTMLDivElement>) => createElement('div', props)
+  const base = (props: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>) => createElement('div', props)
   const component = classed(base)`foo bar`
   const element = createElement(component)
   const container = render(element).container
@@ -40,101 +40,60 @@ test("classed for classed component with multiple inheritances", (t) => {
 })
 
 test("classed for HTML component with props", (t) => {
-  const component = classed.div<{ arg: string }>((props) => `foo bar ${props.arg}`)
+  const component = classed.div<{ arg: string }>((props) => `foo bar ${props.arg}`, {
+    unforwardableProps: ['arg']
+  })
   const element = createElement(component, { arg: "baz" })
   const container = render(element).container
   const div = container.querySelector("div")!
   t.is(div.getAttribute("class"), "foo bar baz")
-  t.is(div.getAttribute("arg"), "baz")
-})
-
-test("classed for HTML component with props, alt syntax", (t) => {
-  const component = classed.div<{ arg: string }>`foo ${(props) => props.arg} baz`
-  const element = createElement(component, { arg: "bar" })
-  const container = render(element).container
-  const div = container.querySelector("div")!
-  t.is(div.getAttribute("class"), "foo bar baz")
-  t.is(div.getAttribute("arg"), "bar")
 })
 
 test("classed for React component with props", (t) => {
   const base = (props: HTMLProps<HTMLDivElement>) => createElement('div', props)
-  const component = classed(base)<{ arg: string }>((props) => `foo ${props.arg}`)
+  const component = classed(base)<{ arg: string }>((props) => `foo ${props.arg}`, {
+    unforwardableProps: ['arg']
+  })
   const element = createElement(component, { arg: "bar" })
   const container = render(element).container
   const div = container.querySelector("div")!
   t.is(div.getAttribute("class"), "foo bar")
-  t.is(div.getAttribute("arg"), "bar")
-})
-
-test("classed for React component with props, alt syntax", (t) => {
-  const base = (props: HTMLProps<HTMLDivElement>) => createElement('div', props)
-  const component = classed(base)<{ arg: string }>`foo ${(props) => props.arg} baz`
-  const element = createElement(component, { arg: "bar" })
-  const container = render(element).container
-  const div = container.querySelector("div")!
-  t.is(div.getAttribute("class"), "foo bar baz")
-  t.is(div.getAttribute("arg"), "bar")
 })
 
 test("classed for classed component with props", (t) => {
-  const base = classed.div<{ base: string }>((props) => `foo ${props.base}`)
-  const component = classed(base)<{ arg: string }>((props) => `bar ${props.arg}`)
+  const base = classed.div<{ base: string }>((props) => `foo ${props.base}`, {
+    unforwardableProps: ['base']
+  })
+  const component = classed(base)<{ arg: string }>((props) => `bar ${props.arg}`, {
+    unforwardableProps: ['arg']
+  })
   const element = createElement(component, { base: "base", arg: "arg" })
   const container = render(element).container
   const div = container.querySelector("div")!
   t.is(div.getAttribute("class"), "foo base bar arg")
-  t.is(div.getAttribute("base"), "base")
-  t.is(div.getAttribute("arg"), "arg")
-})
-
-test("classed for classed component with props, alt syntax", (t) => {
-  const base = classed.div<{ base: string }>`foo ${(props) => props.base}`
-  const component = classed(base)<{ arg: string }>`bar ${(props) => props.arg}`
-  const element = createElement(component, { base: "base", arg: "arg" })
-  const container = render(element).container
-  const div = container.querySelector("div")!
-  t.is(div.getAttribute("class"), "foo base bar arg")
-  t.is(div.getAttribute("base"), "base")
-  t.is(div.getAttribute("arg"), "arg")
 })
 
 test(
   "classed for classed component with props, with multiple inheritances",
   (t) => {
-  const base0 = classed.div<{ base0: string }>((props) => `${props.base0}`)
-  const base1 = classed(base0)<{ base1: string }>((props) => `${props.base1}`)
-  const base = classed(base1)<{ base2: string }>((props) => `${props.base2}`)
-  const component = classed(base)<{ arg: string }>((props) => `bar ${props.arg}`)
+  const base0 = classed.div<{ base0: string }>((props) => `${props.base0}`, {
+    unforwardableProps: ['base0']
+  })
+  const base1 = classed(base0)<{ base1: string }>((props) => `${props.base1}`, {
+    unforwardableProps: ['base1']
+  })
+  const base = classed(base1)<{ base2: string }>((props) => `${props.base2}`, {
+    unforwardableProps: ['base2']
+  })
+  const component = classed(base)<{ arg: string }>((props) => `bar ${props.arg}`, {
+    unforwardableProps: ['arg']
+  })
   const element = createElement(component, {
     base0: "foo0", base1: "foo1", base2: "foo2", arg: "arg"
   })
   const container = render(element).container
   const div = container.querySelector("div")!
   t.is(div.getAttribute("class"), "foo0 foo1 foo2 bar arg")
-  t.is(div.getAttribute("base0"), "foo0")
-  t.is(div.getAttribute("base1"), "foo1")
-  t.is(div.getAttribute("base2"), "foo2")
-  t.is(div.getAttribute("arg"), "arg")
-})
-
-test(
-  "classed for classed component with props, with multiple inheritances, alt syntax",
-  (t) => {
-  const base0 = classed.div<{ base0: string }>`${(props) => props.base0}`
-  const base1 = classed(base0)<{ base1: string }>`${(props) => props.base1}`
-  const base = classed(base1)<{ base2: string }>`${(props) => props.base2}`
-  const component = classed(base)<{ arg: string }>`bar ${(props) => props.arg}`
-  const element = createElement(component, {
-    base0: "foo0", base1: "foo1", base2: "foo2", arg: "arg"
-  })
-  const container = render(element).container
-  const div = container.querySelector("div")!
-  t.is(div.getAttribute("class"), "foo0 foo1 foo2 bar arg")
-  t.is(div.getAttribute("base0"), "foo0")
-  t.is(div.getAttribute("base1"), "foo1")
-  t.is(div.getAttribute("base2"), "foo2")
-  t.is(div.getAttribute("arg"), "arg")
 })
 
 test("inherited for HTML component", (t) => {

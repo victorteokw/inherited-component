@@ -1,13 +1,10 @@
 import { ReactNode } from 'react'
+import type { AcceptClassName } from './classed'
 import type { ComponentConfig } from './config'
 import type {
   ComponentTransformer,
   ComponentTransformerWithAdditionalProps
 } from './transformer'
-
-export type AcceptClassName = {
-  className?: string
-}
 
 type WithClasses = {
   <P>(extractor: (props: P) => string): ComponentTransformer<P>

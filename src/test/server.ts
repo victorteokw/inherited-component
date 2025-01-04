@@ -37,78 +37,57 @@ test("classed for classed component with multiple inheritances", (t) => {
 })
 
 test("classed for HTML component with props", (t) => {
-  const component = classed.div<{ arg: string }>((props) => `foo bar ${props.arg}`)
+  const component = classed.div<{ arg: string }>((props) => `foo bar ${props.arg}`, {
+    unforwardableProps: ['arg']
+  })
   const element = createElement(component, { arg: "baz" })
   const result = renderToString(element)
-  t.is(result, '<div class="foo bar baz" arg="baz"></div>')
-})
-
-test("classed for HTML component with props, alt syntax", (t) => {
-
-  const component = classed.div<{ arg: string }>`foo ${(props) => props.arg} baz`
-  const element = createElement(component, { arg: "bar" })
-  const result = renderToString(element)
-  t.is(result, '<div class="foo bar baz" arg="bar"></div>')
+  t.is(result, '<div class="foo bar baz"></div>')
 })
 
 test("classed for React component with props", (t) => {
   const base = (props: HTMLProps<HTMLDivElement>) => createElement('div', props)
-  const component = classed(base)<{ arg: string }>((props) => `foo ${props.arg}`)
+  const component = classed(base)<{ arg: string }>((props) => `foo ${props.arg}`, {
+    unforwardableProps: ['arg']
+  })
   const element = createElement(component, { arg: "bar" })
   const result = renderToString(element)
   t.is(result, '<div class="foo bar" arg="bar"></div>')
 })
 
-test("classed for React component with props, alt syntax", (t) => {
-  const base = (props: HTMLProps<HTMLDivElement>) => createElement('div', props)
-  const component = classed(base)<{ arg: string }>`foo ${(props) => props.arg} baz`
-  const element = createElement(component, { arg: "bar" })
-  const result = renderToString(element)
-  t.is(result, '<div class="foo bar baz" arg="bar"></div>')
-})
-
 test("classed for classed component with props", (t) => {
-  const base = classed.div<{ base: string }>((props) => `foo ${props.base}`)
-  const component = classed(base)<{ arg: string }>((props) => `bar ${props.arg}`)
+  const base = classed.div<{ base: string }>((props) => `foo ${props.base}`, {
+    unforwardableProps: ['base']
+  })
+  const component = classed(base)<{ arg: string }>(
+    (props) => `bar ${props.arg}`,
+    { unforwardableProps: ['arg'] }
+  )
   const element = createElement(component, { base: "base", arg: "arg" })
   const result = renderToString(element)
-  t.is(result, '<div class="foo base bar arg" base="base" arg="arg"></div>')
-})
-
-test("classed for classed component with props, alt syntax", (t) => {
-  const base = classed.div<{ base: string }>`foo ${(props) => props.base}`
-  const component = classed(base)<{ arg: string }>`bar ${(props) => props.arg}`
-  const element = createElement(component, { base: "base", arg: "arg" })
-  const result = renderToString(element)
-  t.is(result, '<div class="foo base bar arg" base="base" arg="arg"></div>')
+  t.is(result, '<div class="foo base bar arg"></div>')
 })
 
 test(
   "classed for classed component with props, with multiple inheritances",
   (t) => {
-  const base0 = classed.div<{ base0: string }>((props) => `${props.base0}`)
-  const base1 = classed(base0)<{ base1: string }>((props) => `${props.base1}`)
-  const base = classed(base1)<{ base2: string }>((props) => `${props.base2}`)
-  const component = classed(base)<{ arg: string }>((props) => `bar ${props.arg}`)
+  const base0 = classed.div<{ base0: string }>(
+    (props) => `${props.base0}`,
+    { unforwardableProps: ['base0'] })
+  const base1 = classed(base0)<{ base1: string }>((props) => `${props.base1}`, {
+    unforwardableProps: ['base1']
+  })
+  const base = classed(base1)<{ base2: string }>((props) => `${props.base2}`, {
+    unforwardableProps: ['base2']
+  })
+  const component = classed(base)<{ arg: string }>((props) => `bar ${props.arg}`, {
+    unforwardableProps: ['arg']
+  })
   const element = createElement(component, {
     base0: "foo0", base1: "foo1", base2: "foo2", arg: "arg"
   })
   const result = renderToString(element)
-  t.is(result, '<div class="foo0 foo1 foo2 bar arg" base0="foo0" base1="foo1" base2="foo2" arg="arg"></div>')
-})
-
-test(
-  "classed for classed component with props, with multiple inheritances, alt syntax",
-  (t) => {
-  const base0 = classed.div<{ base0: string }>`${(props) => props.base0}`
-  const base1 = classed(base0)<{ base1: string }>`${(props) => props.base1}`
-  const base = classed(base1)<{ base2: string }>`${(props) => props.base2}`
-  const component = classed(base)<{ arg: string }>`bar ${(props) => props.arg}`
-  const element = createElement(component, {
-    base0: "foo0", base1: "foo1", base2: "foo2", arg: "arg"
-  })
-  const result = renderToString(element)
-  t.is(result, '<div class="foo0 foo1 foo2 bar arg" base0="foo0" base1="foo1" base2="foo2" arg="arg"></div>')
+  t.is(result, '<div class="foo0 foo1 foo2 bar arg"></div>')
 })
 
 test("inherited for HTML component", (t) => {
