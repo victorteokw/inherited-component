@@ -1,11 +1,13 @@
 import type { JSX } from "react"
 import type { ComponentConfig } from './config'
 import type { IntrinsicElements } from './intrinsic'
+import type { PartialBy } from './utils'
 
 type InheritedCreator<P, N> = {
-  (extractor: (props: P) => Partial<P>): (props: P) => N
+  <D extends NoInfer<Partial<P>>>(props: D): (props: PartialBy<P, keyof D>) => N
+  <D extends NoInfer<Partial<P>>>(extractor: (props: P) => D): (props: PartialBy<P, keyof D>) => N
   <T>(extractor: (props: T & P) => Partial<P>, config: ComponentConfig<T>): (props: T & P) => N
-  (props: P): (props: P) => N
+  <T, D extends NoInfer<Partial<P>>>(extractor: (props: T & P) => D, config: ComponentConfig<T>): (props: PartialBy<T & P, keyof D>) => N
 }
 
 export type Inherited = {

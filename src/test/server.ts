@@ -204,3 +204,61 @@ test("inherited with unforwardable props", (t) => {
   const result = renderToString(element)
   t.is(result, '<div class="flex"></div>')
 })
+
+test("inherited sets default props with object syntax", (t) => {
+  const base = (props: { must: number, have: boolean }) => createElement(
+    'div',
+    { className: `${props.must} ${props.have}` })
+  const component = inherited(base)({ must: 1 })
+  const element = createElement(component, { have: true })
+  const result = renderToString(element)
+  t.is(result, '<div class="1 true"></div>')
+})
+
+test("inherited sets default props with function syntax", (t) => {
+  const base = (props: { must: number, have: boolean }) => createElement(
+    'div',
+    { className: `${props.must} ${props.have}` })
+  const component = inherited(base)(() => ({ must: 1 }))
+  const element = createElement(component, { have: true })
+  const result = renderToString(element)
+  t.is(result, '<div class="1 true"></div>')
+})
+
+test("inherited sets default props with additional props", (t) => {
+  const base = (props: { must: number, have: boolean }) => createElement(
+    'div',
+    { className: `${props.must} ${props.have}` })
+  const component = inherited(base)<{ foo: string }, { must: number }>(
+    () => ({ must: 1 }),
+    { unforwardableProps: [ 'foo' ]})
+  const element = createElement(component, { have: true, foo: "value" })
+  const result = renderToString(element)
+  t.is(result, '<div class="1 true"></div>')
+})
+
+test("classed sets default class name with string syntax", (t) => {
+  const base = (props: { className: string }) => createElement('div', props)
+  const component = classed(base)`foo bar`
+  const element = component({})
+  const result = renderToString(element)
+  t.is(result, '<div class="foo bar"></div>')
+})
+
+test("classed sets default class name with function syntax", (t) => {
+  const base = (props: { className: string }) => createElement('div', props)
+  const component = classed(base)(() => 'foo bar')
+  const element = component({})
+  const result = renderToString(element)
+  t.is(result, '<div class="foo bar"></div>')
+})
+
+test("classed sets default class name with additional props", (t) => {
+  const base = (props: { className: string }) => createElement('div', props)
+  const component = classed(base)<{ foo: string }>(() => 'foo bar', {
+    unforwardableProps: [ 'foo' ]
+  })
+  const element = component({ foo: "value" })
+  const result = renderToString(element)
+  t.is(result, '<div class="foo bar"></div>')
+})
