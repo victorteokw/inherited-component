@@ -6,7 +6,17 @@ Inherited Component
 [![License][license-image]][license-url]
 [![PR Welcome][pr-image]][pr-url]
 
-Classed component with custom props and attributes.
+A set of utility functions that takes component reusing to a higher level.
+
+## Features
+
+* ✅ Classed component that works great with tailwind
+* ✅ Classed component with additional props
+* ✅ Inherited component with default prop values
+* ✅ Inherited component with additional props
+* ✅ Component inheritance
+* ✅ Supports hooks inside the function body
+* ✅ Component transformers
 
 ## Installation
 
