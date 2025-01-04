@@ -18,6 +18,7 @@ Inherited Component is the styled-component of the tailwind age.
 * ✅ Component inheritance
 * ✅ Supports hooks inside the function body
 * ✅ Component transformers that works great with headless components
+* ✅ Type-strict, a higher level of type-safe
 
 ## Installation
 
@@ -32,6 +33,9 @@ npm i inherited-component
 
 ### Define a intrinsic classed component
 
+Define a component which behaves just like the intrinsic component with
+predefined classes in one line.
+
 ```ts
 import { classed } from 'inherited-component'
 
@@ -39,6 +43,11 @@ const Container = classed.div`container max-sm:px-4 mx-auto`
 ```
 
 ### Inherit a component with additional classes
+
+Take a component which may or may not have class names, create a new component
+by appending more classes on it. The other props and hooks are preserved. The
+newly created component takes any parameter that the previous component
+accepts.
 
 > Note: The wrapped component should accept `className` property.
 
@@ -50,6 +59,10 @@ const FlexContainer = classed(Container)`flex flex-col`
 
 ### Define a intrinsic classed component with custom props
 
+Define a classed component with dynamic classes calculated from additional
+props. The type checker helps you to remove the additional properties in case
+of passing it to the underlying component.
+
 ```ts
 import { classed } from 'inherited-component'
 
@@ -60,6 +73,9 @@ const Button = classed.button<{ variant: "m" | "l" }>(
 
 ### Inherit a component with classes from custom props
 
+This works with custom components in the same way, too. Just wrap the original
+component in a pair of parens.
+
 ```ts
 import { classed } from 'inherited-component'
 
@@ -69,6 +85,9 @@ const Button = classed(BaseButton)<{ variant: "m" | "l" }>(
 ```
 
 ### Define a intrinsic component with custom attributes
+
+With `inherited`, any properties can be merged and passed down. Use dot syntax
+for intrinsic components.
 
 ```ts
 import { inherited } from 'inherited-component'
@@ -81,6 +100,8 @@ const Input = inherited.input({
 
 ### Inherit a component with custom attributes
 
+Inherited component can inherit any component, not only intrinsic ones.
+
 ```ts
 import { inherited } from 'inherited-component'
 
@@ -91,6 +112,9 @@ const Input = inherited(BaseInput)({
 ```
 
 ### Define a intrinsic inherited component with attributes from custom props
+
+Like its counterpart `classed`, `inherited` works with additional props. Don't
+forget to prevent the undesired props from passing down.
 
 ```ts
 import { inherited } from 'inherited-component'
@@ -104,6 +128,9 @@ const Button = inherited.button<{ variant: "m" | "l" }>(
 ```
 
 ### Inherit a component with attributes from custom props
+
+The same works for any component. You can even put hooks inside the function
+body.
 
 ```ts
 import { inherited } from 'inherited-component'
@@ -169,7 +196,7 @@ const Button = inherited(Button)<{ variant: "m" | "l" }>(
     className: `${props.variant === 'm' ? 'text-xl' : 'text-2xl'}`,
     disabled: true
   }),
-  { unforwardable: ['variant'] })
+  { unforwardableProps: ['variant'] })
 ```
 
 ## Editor Config
