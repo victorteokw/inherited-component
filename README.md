@@ -215,7 +215,13 @@ intellisense.
 
 ## License
 
-MIT © [Victor Teo][license-url]
+This package is an open-sourced software licensed under the
+[MIT License][license-url].
+
+## Contributing
+
+Issues and PRs are obviously welcomed and encouraged, for bug fixing, more
+accurate type definitions, new features as well as documentation.
 
 [npm-image]: https://img.shields.io/npm/v/inherited-component.svg?style=flat-square&color=ff69b4&logo=react
 [npm-url]: https://npmjs.org/package/inherited-component
