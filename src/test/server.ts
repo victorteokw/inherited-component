@@ -41,6 +41,13 @@ test("classed for classed component with multiple inheritances", (t) => {
   t.is(result, '<div class="foo0 foo1 foo2 foo bar"></div>')
 })
 
+test("classed for HTML component with intrinsic props", (t) => {
+  const component = classed.div`foo bar ${props => `${props.id}`}`
+  const element = createElement(component, { id: "baz" })
+  const result = renderToString(element)
+  t.is(result, '<div class="foo bar baz" id="baz"></div>')
+})
+
 test("classed for HTML component with props", (t) => {
   const component = classed.div<{ arg: string }>(
     (props) => `foo bar ${props.arg}`,
