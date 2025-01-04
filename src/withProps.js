@@ -1,13 +1,14 @@
 const { inherited } = require('./inherited')
 
 function withProps(...args) {
-  return function (component) {
-    if (typeof component === 'string') {
-      return inherited[component](...args)
-    } else {
-      return inherited(component)(...args)
-    }
+  const originalTransformer = function (component) {
+    return inherited(component)(...args)
   }
+  return new Proxy(originalTransformer, {
+    get(_target, name, _receiver) {
+      return inherited[name](...args)
+    }
+  })
 }
 
 module.exports = { withProps }

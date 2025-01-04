@@ -6,9 +6,9 @@ import type {
 } from './transformer'
 
 type WithProps = {
-  <P>(extractor: (props: P) => Partial<P>): ComponentTransformer<P>
-  <T, P>(extractor: (props: T & P) => Partial<P>, config?: ComponentConfig<T & P>): ComponentTransformerWithAdditionalProps<T, P>
-  <P>(props: P): ComponentTransformer<Partial<P>>
+  <P>(props: P): ComponentTransformer<P>
+  <P, D extends NoInfer<Partial<P>>>(extractor: (props: P) => D): ComponentTransformer<PartialBy<P, keyof D>>
+  <T, P, D extends NoInfer<Partial<P>>>(extractor: (props: T & P) => D, config: ComponentConfig<T>): ComponentTransformerWithAdditionalProps<T, PartialBy<T & P, keyof D>>
 }
 
 export const withProps: WithProps

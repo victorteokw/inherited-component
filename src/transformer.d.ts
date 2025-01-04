@@ -1,14 +1,11 @@
-import { ComponentProps, ReactNode } from 'react'
-
-const never = Symbol('never')
-type Never<T extends string> = { [never]: T }
+import { ReactNode } from 'react'
 
 export type ComponentTransformer<B> = {
-  <P extends NoInfer<B>>(component: (props: P) => ReactNode): (props: P) => ReactNode
-  <C extends string, CP extends ComponentProps<C>, P extends B & CP>(component: C): (props: P) => ReactNode
+  <P extends NoInfer<B>, N extends NoInfer<ReactNode>>(component: (props: P) => N): (props: P) => N
+//  <C extends string, CP extends ComponentProps<C>, P extends B & CP>(component: C): (props: P) => N
 }
 
 export type ComponentTransformerWithAdditionalProps<T, B> = {
-  <P extends NoInfer<B>>(component: (props: P) => ReactNode): (props: T & P) => ReactNode
-  <C extends string, CP extends ComponentProps<C>, P extends B & CP>(component: C): (props: T & P) => ReactNode
+  <P extends NoInfer<B>, N extends NoInfer<ReactNode>>(component: (props: P) => N): (props: T & P) => N
+//  <C extends string, CP extends ComponentProps<C>, P extends B & CP>(component: C): (props: T & P) => N
 }

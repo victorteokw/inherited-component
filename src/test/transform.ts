@@ -19,7 +19,7 @@ test("withClasses transforms components", (t) => {
 
 test("withClasses transforms string components", (t) => {
   const transform = withClasses`foo bar`
-  const transformed = transform("div")
+  const transformed = transform.div
   const element = createElement(transformed)
   const result = renderToString(element)
   t.is(result, '<div class="foo bar"></div>')
@@ -36,7 +36,7 @@ test("withProps transforms components", (t) => {
 
 test("withProps transforms string components", (t) => {
   const transform = withProps({ id: "foo" })
-  const transformed = transform("div")
+  const transformed = transform.div
   const element = createElement(transformed)
   const result = renderToString(element)
   t.is(result, '<div id="foo"></div>')
