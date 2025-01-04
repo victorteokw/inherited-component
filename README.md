@@ -152,5 +152,5 @@ MIT © [Victor Teo][license-url]
 [cov-url]: https://codecov.io/gh/victorteokw/inherited-component
 [license-image]: https://img.shields.io/github/license/victorteokw/inherited-component.svg?style=flat-square&color=blue
 [license-url]: https://github.com/victorteokw/inherited-component/blob/master/LICENSE
-[pr-image]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square&color=blue
+[pr-image]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square&color=orange
 [pr-url]: https://github.com/victorteokw/inherited-component/blob/master/CONTRIBUTING.md
