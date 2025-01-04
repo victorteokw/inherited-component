@@ -1,3 +1,3 @@
-type ComponentConfig<P> = {
+export type ComponentConfig<P> = {
   unforwardableProps: (keyof P)[]
 }
