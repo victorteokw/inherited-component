@@ -1,6 +1,6 @@
 const { createElement } = require('react')
 const { mergeProps } = require('react-merge-props')
-const { removeTransientProps, removeUnforwardableProps } = require('./shared')
+const { removeUnforwardableProps } = require('./shared')
 
 function extractInterleaved(literals, functions) {
   return function(props) {
@@ -35,7 +35,7 @@ function extractorFromTaggedOrFunction(taggedOrFunction) {
   }
 }
 
-function classedCreator(parent, filterTransientProps = false) {
+function classedCreator(parent) {
   return function(...args) {
     const [taggedOrFunction, config] = typeof args[0] === 'function' ? [args[0], args[1]] : [args, undefined]
     const propsExtractor = extractorFromTaggedOrFunction(taggedOrFunction)
@@ -44,7 +44,7 @@ function classedCreator(parent, filterTransientProps = false) {
       if (config && config.unforwardableProps) {
         props = removeUnforwardableProps(props, config.unforwardableProps)
       }
-      return createElement(parent, filterTransientProps ? removeTransientProps(props) : props)
+      return createElement(parent, props)
     }
     return component
   }
@@ -56,7 +56,7 @@ function originalClassed(parent) {
 
 const classed = new Proxy(originalClassed, {
   get(_target, name, _receiver) {
-    return classedCreator(name, true)
+    return classedCreator(name)
   }
 })
 

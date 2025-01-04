@@ -1,6 +1,6 @@
 const { createElement } = require('react')
 const { mergeProps } = require('react-merge-props')
-const { removeTransientProps, removeUnforwardableProps } = require('./shared')
+const { removeUnforwardableProps } = require('./shared')
 
 function createStaticExtractor(props) {
   return function() {
@@ -20,7 +20,7 @@ function originalInherited(parent) {
   return inheritedCreator(parent)
 }
 
-function inheritedCreator(parent, filterTransientProps = false) {
+function inheritedCreator(parent) {
   return function(propsOrFunction, config) {
     const propsExtractor = extractorFromFunctionOrObject(propsOrFunction)
     const component = function (props) {
@@ -28,7 +28,7 @@ function inheritedCreator(parent, filterTransientProps = false) {
       if (config && config.unforwardableProps) {
         props = removeUnforwardableProps(props, config.unforwardableProps)
       }
-      return createElement(parent, filterTransientProps ? removeTransientProps(props) : props)
+      return createElement(parent, props)
     }
     return component
   }
@@ -36,7 +36,7 @@ function inheritedCreator(parent, filterTransientProps = false) {
 
 const inherited = new Proxy(originalInherited, {
   get(_target, name, _receiver) {
-    return inheritedCreator(name, true)
+    return inheritedCreator(name)
   }
 })
 

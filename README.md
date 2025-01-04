@@ -103,22 +103,7 @@ const Button = inherited(Button)
 ## Props Passing
 
 Just like styled-component, props are passed down by default. To prevent
-unexpected props being passed down. Use transient props or unforwardable props.
-
-### Transient Props
-
-Transient props are props that prefixed with `$`. These props won't be passed
-into DOM components.
-
-```ts
-import { inherited } from 'inherited-component'
-
-const Button = inherited(Button)
-  <{ $variant: "m" | "l"}>(({ $variant = "m" }) => ({
-    className: `${props.$variant === 'm' ? 'text-xl' : 'text-2xl'}`,
-    disabled: true
-  }))
-```
+unexpected props being passed down. Use unforwardable props.
 
 ### Unforwardable Props
 
