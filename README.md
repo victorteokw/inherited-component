@@ -1,5 +1,10 @@
 Inherited Component
 ===================
+[![NPM version][npm-image]][npm-url]
+[![Build Status][github-ci-image]][github-ci-url]
+[![Test Coverage][cov-image]][cov-url]
+[![License][license-image]][license-url]
+[![PR Welcome][pr-image]][pr-url]
 
 Classed component with custom props and attributes.
 
@@ -134,3 +139,18 @@ intellisense.
   ]
 }
 ```
+
+## License
+
+MIT © [Victor Teo][license-url]
+
+[npm-image]: https://img.shields.io/npm/v/inherited-component.svg?style=flat-square&color=ff69b4&logo=react
+[npm-url]: https://npmjs.org/package/inherited-component
+[github-ci-image]: https://img.shields.io/github/actions/workflow/status/victorteokw/inherited-component/CI.yml.svg?style=flat-square&color=blue&logo=github
+[github-ci-url]: https://github.com/victorteokw/inherited-component/actions/
+[cov-image]: https://img.shields.io/codecov/c/github/victorteokw/inherited-component/main.svg?style=flat-square&logo=codecov
+[cov-url]: https://codecov.io/gh/victorteokw/inherited-component
+[license-image]: https://img.shields.io/github/license/victorteokw/inherited-component.svg?style=flat-square
+[license-url]: https://github.com/victorteokw/inherited-component/blob/master/LICENSE
+[pr-image]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square
+[pr-url]: https://github.com/victorteokw/inherited-component/blob/master/CONTRIBUTING.md

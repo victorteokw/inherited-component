@@ -24,7 +24,7 @@
     "pretest": "tsc",
     "pretest-cov": "tsc",
     "test": "ava",
-    "test-cov": "c8 ava"
+    "test-cov": "c8 --include src/**/*.js ava"
   },
   "dependencies": {
     "react": "18 - 19",
