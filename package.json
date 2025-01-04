@@ -24,7 +24,7 @@
     "pretest": "tsc",
     "pretest-cov": "tsc",
     "test": "ava",
-    "test-cov": "nyc --include src/**/*.js ava"
+    "test-cov": "nyc --include src/**/*.js --reporter=lcov --reporter=text ava"
   },
   "dependencies": {
     "react": "18 - 19",
