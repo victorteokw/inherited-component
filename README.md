@@ -7,6 +7,7 @@ Inherited Component
 [![PR Welcome][pr-image]][pr-url]
 
 A set of utility functions that takes component reusing to a higher level.
+Inherited Component is the styled-component of the tailwind age.
 
 ## Features
 
@@ -16,7 +17,7 @@ A set of utility functions that takes component reusing to a higher level.
 * ✅ Inherited component with additional props
 * ✅ Component inheritance
 * ✅ Supports hooks inside the function body
-* ✅ Component transformers
+* ✅ Component transformers that works great with headless components
 
 ## Installation
 
@@ -29,7 +30,7 @@ npm i inherited-component
 
 ## Usage
 
-### Define a primitive classed component
+### Define a intrinsic classed component
 
 ```ts
 import { classed } from 'inherited-component'
@@ -47,7 +48,7 @@ import { classed } from 'inherited-component'
 const FlexContainer = classed(Container)`flex flex-col`
 ```
 
-### Define a primitive classed component with classes custom props
+### Define a intrinsic classed component with custom props
 
 ```ts
 import { classed } from 'inherited-component'
@@ -67,7 +68,7 @@ const Button = classed(BaseButton)<{ variant: "m" | "l" }>(
   { unforwardableProps: ['variant'] })
 ```
 
-### Define a primitive component with custom attributes
+### Define a intrinsic component with custom attributes
 
 ```ts
 import { inherited } from 'inherited-component'
@@ -89,7 +90,7 @@ const Input = inherited(BaseInput)({
 })
 ```
 
-### Define a primitive inherited component with attributes from custom props
+### Define a intrinsic inherited component with attributes from custom props
 
 ```ts
 import { inherited } from 'inherited-component'
@@ -115,11 +116,46 @@ const Button = inherited(Button)<{ variant: "m" | "l" }>(
   { unforwardableProps: ['variant'] })
 ```
 
+### Define a reusable transformer with predefined classes
+
+In some cases, we want different components to look the same. For example, we
+may want `a`, `button` and some headless components to look and feel the same
+in a header. Then simply do this. The `withClasses` takes the same parameters
+as the `classed` function.
+
+```ts
+import { withClasses } from 'inherited-component'
+
+const intoHeaderButton = withClasses`
+  hover:bg-gray-100 dark:hover:bg-gray-900 rounded-xl p-2 cursor-pointer
+`
+
+const HeaderButton = intoHeaderButton.button
+const HeaderLink = intoHeaderButton(Link)
+const HeaderDropdownTrigger = intoHeaderButton(DropdownTrigger)
+```
+
+### Define a reusable transformer with predefined properties
+
+`withProps` is a more generic alternative to the `withClasses` counterpart. It
+allows class name and other properties to be set. It takes the same parameters
+as `inherited`.
+
+```ts
+import { withProps } from 'inherited-component'
+
+const intoDefaultDisabled = withProps({ disable: true })
+
+const DefaultDisabledButton = intoDefaultDisabled.button
+const DefaultDisabledInput = intoDefaultDisabled.input
+const DefaultDisabledSwitch = intoDefaultDisabled(Switch)
+```
+
 ## Props Passing
 
-Just like styled-component, props are passed down by default. To prevent
-unexpected props being passed down, we enforce you to declare unforwardable
-props.
+Just like styled-component, props are merged and passed down by default. To
+prevent unexpected props being passed down, we enforce you to declare
+unforwardable props.
 
 ### Unforwardable Props
 

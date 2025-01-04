@@ -1,7 +1,7 @@
 {
   "name": "inherited-component",
-  "version": "0.2.1",
-  "description": "Classed component with props and attributes",
+  "version": "0.2.2",
+  "description": "A set of utility functions that takes component reusing to a higher level.",
   "main": "src/index.js",
   "types": "src/index.d.ts",
   "files": [
