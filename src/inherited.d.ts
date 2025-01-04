@@ -1,8 +1,8 @@
-import type { JSX, ReactNode } from "react"
+import type { JSX } from "react"
 import type { ComponentConfig } from './config'
 import type { IntrinsicElements } from './intrinsic'
 
-type InheritedCreator<P, N = ReactNode> = {
+type InheritedCreator<P, N> = {
   (extractor: (props: P) => Partial<P>): (props: P) => N
   <T>(extractor: (props: T & P) => Partial<P>, config: ComponentConfig<T>): (props: T & P) => N
   (props: P): (props: P) => N

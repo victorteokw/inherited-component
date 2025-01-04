@@ -1,4 +1,4 @@
-import type { DetailedReactHTMLElement, JSX, ReactNode, ReactComponentElement } from "react"
+import type { JSX } from "react"
 import type { ComponentConfig } from './config'
 import type { IntrinsicElements } from './intrinsic'
 
@@ -10,7 +10,7 @@ export type AcceptClassName = {
   className?: string
 }
 
-type ClassedCreator<P, N = ReactNode> = {
+type ClassedCreator<P, N> = {
   (extractor: (props: P) => string): (props: P) => N
   <T>(extractor: (props: T & P) => string, config: ComponentConfig<T>): (props: T & P) => N
   (strings: TemplateStringsArray, ...interpolations: ((props: P) => string)[]): (props: P) => N

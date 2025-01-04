@@ -1,11 +1,16 @@
 import test from 'ava'
-import { createElement, HTMLProps } from 'react'
+import { createElement, DetailedHTMLProps, HTMLAttributes } from 'react'
 import { renderToString } from 'react-dom/server'
 import { withProps, withClasses } from '..'
 
+type DivProps = DetailedHTMLProps<
+  HTMLAttributes<HTMLDivElement>,
+  HTMLDivElement
+>
+
 test("withClasses transforms components", (t) => {
   const transform = withClasses`foo bar`
-  const base = (props: HTMLProps<HTMLDivElement>) => createElement('div', props)
+  const base = (props: DivProps) => createElement('div', props)
   const transformed = transform(base)
   const element = createElement(transformed, { "id": "d" })
   const result = renderToString(element)
@@ -22,7 +27,7 @@ test("withClasses transforms string components", (t) => {
 
 test("withProps transforms components", (t) => {
   const transform = withProps({ id: "foo" })
-  const base = (props: HTMLProps<HTMLDivElement>) => createElement('div', props)
+  const base = (props: DivProps) => createElement('div', props)
   const transformed = transform(base)
   const element = createElement(transformed)
   const result = renderToString(element)
