@@ -37,10 +37,9 @@ const FlexContainer = classed(Container)`flex flex-col`
 ```ts
 import { classed } from 'inherited-component'
 
-const Button = classed
-  .button<{ variant: "m" | "l"}>
-    (({ variant = "m" }) =>
-      `${props.variant === 'm' ? 'text-xl' : 'text-2xl'}`)
+const Button = classed.button<{ variant: "m" | "l" }>(
+  ({ variant = "m" }) => `${variant === 'm' ? 'text-xl' : 'text-2xl'}`,
+  { unforwardableProps: ['variant'] })
 ```
 
 ### Inherit a component with classes from custom props
@@ -48,10 +47,9 @@ const Button = classed
 ```ts
 import { classed } from 'inherited-component'
 
-const Button = classed(BaseButton)
-  <{ variant: "m" | "l"}>
-    (({ variant = "m" }) =>
-      `${props.variant === 'm' ? 'text-xl' : 'text-2xl'}`)
+const Button = classed(BaseButton)<{ variant: "m" | "l" }>(
+  ({ variant = "m" }) => `${variant === 'm' ? 'text-xl' : 'text-2xl'}`,
+  { unforwardableProps: ['variant'] })
 ```
 
 ### Define a primitive component with custom attributes
@@ -70,7 +68,7 @@ const Input = inherited.input({
 ```ts
 import { inherited } from 'inherited-component'
 
-const DisabledInput = inherited(BaseInput)({
+const Input = inherited(BaseInput)({
   className: "outline-none border-1 border-black border-solid",
   disabled: true
 })
@@ -81,11 +79,12 @@ const DisabledInput = inherited(BaseInput)({
 ```ts
 import { inherited } from 'inherited-component'
 
-const Button = inherited.button
-  <{ variant: "m" | "l"}>(({ variant = "m" }) => ({
+const Button = inherited.button<{ variant: "m" | "l" }>(
+  ({ variant = "m" }) => ({
     className: `${props.variant === 'm' ? 'text-xl' : 'text-2xl'}`,
     disabled: true
-  }))
+  }),
+  { unforwardableProps: ['variant'] })
 ```
 
 ### Inherit a component with attributes from custom props
@@ -93,17 +92,19 @@ const Button = inherited.button
 ```ts
 import { inherited } from 'inherited-component'
 
-const Button = inherited(Button)
-  <{ variant: "m" | "l"}>(({ variant = "m" }) => ({
+const Button = inherited(Button)<{ variant: "m" | "l" }>(
+  ({ variant = "m" }) => ({
     className: `${props.variant === 'm' ? 'text-xl' : 'text-2xl'}`,
     disabled: true
-  }))
+  }),
+  { unforwardableProps: ['variant'] })
 ```
 
 ## Props Passing
 
 Just like styled-component, props are passed down by default. To prevent
-unexpected props being passed down. Use unforwardable props.
+unexpected props being passed down, we enforce you to declare unforwardable
+props.
 
 ### Unforwardable Props
 
@@ -112,11 +113,12 @@ Pass a list of prop names which shouldn't be passed down.
 ```ts
 import { inherited } from 'inherited-component'
 
-const Button = inherited(Button)
-  <{ variant: "m" | "l"}>(({ variant = "m" }) => ({
+const Button = inherited(Button)<{ variant: "m" | "l" }>(
+  ({ variant = "m" }) => ({
     className: `${props.variant === 'm' ? 'text-xl' : 'text-2xl'}`,
     disabled: true
-  }), { unforwardable: ['variant'] })
+  }),
+  { unforwardable: ['variant'] })
 ```
 
 ## Editor Config
