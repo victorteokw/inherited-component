@@ -2,7 +2,7 @@ import "global-jsdom/register"
 import test from 'ava'
 import { createElement, DetailedHTMLProps, HTMLAttributes } from 'react'
 import { render } from '@testing-library/react'
-import { classed, inherited } from '..'
+import { classed, inherited } from '../src'
 
 type DivProps = DetailedHTMLProps<
   HTMLAttributes<HTMLDivElement>,

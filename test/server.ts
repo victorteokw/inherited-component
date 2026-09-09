@@ -1,7 +1,7 @@
 import test from 'ava'
 import { createElement, DetailedHTMLProps, HTMLAttributes } from 'react'
 import { renderToString } from 'react-dom/server'
-import { classed, inherited } from '..'
+import { classed, inherited } from '../src'
 
 type DivProps = DetailedHTMLProps<
   HTMLAttributes<HTMLDivElement>,

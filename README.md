@@ -11,12 +11,12 @@ Inherited Component is the styled-component of the tailwind age.
 
 ## Features
 
-* ✅ Classed component that works great with tailwind
-* ✅ Classed component with additional props
-* ✅ Inherited component with default prop values
-* ✅ Inherited component with additional props
-* ✅ Component inheritance
-* ✅ Supports hooks inside the function body
+* ✅ Classed components that works great with tailwind classes
+* ✅ Classed components with custom props
+* ✅ Inherited classed components
+* ✅ Define inherited components with default props
+* ✅ Define inherited components with custom props
+* ✅ Hooks are supported
 * ✅ Component transformers that works great with headless components
 * ✅ Type-strict, a higher level of type-safe
 
@@ -31,7 +31,7 @@ npm i inherited-component
 
 ## Usage
 
-### Define a intrinsic classed component
+### Define a new classed component
 
 Define a component which behaves just like the intrinsic component with
 predefined classes in one line.
@@ -54,10 +54,12 @@ accepts.
 ```ts
 import { classed } from 'inherited-component'
 
+const Container = classed.div`w-full`
+
 const FlexContainer = classed(Container)`flex flex-col`
 ```
 
-### Define a intrinsic classed component with custom props
+### Define a new classed component with custom props
 
 Define a classed component with dynamic classes calculated from additional
 props. The type checker helps you to remove the additional properties in case
@@ -84,7 +86,7 @@ const Button = classed(BaseButton)<{ variant: "m" | "l" }>(
   { unforwardableProps: ['variant'] })
 ```
 
-### Define a intrinsic component with custom attributes
+### Define a new component with custom attributes
 
 With `inherited`, any properties can be merged and passed down. Use dot syntax
 for intrinsic components.
@@ -111,7 +113,7 @@ const Input = inherited(BaseInput)({
 })
 ```
 
-### Define a intrinsic inherited component with attributes from custom props
+### Define a new inherited component with attributes from custom props
 
 Like its counterpart `classed`, `inherited` works with additional props. Don't
 forget to prevent the undesired props from passing down.
@@ -208,7 +210,7 @@ intellisense.
 ```json
 {
   "tailwindCSS.experimental.classRegex": [
-    ["classed(?:\\.\\w*)?\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
+    "classed(?:\\.\\w*)?\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"
   ]
 }
 ```

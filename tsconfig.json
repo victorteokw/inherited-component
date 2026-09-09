@@ -8,15 +8,13 @@
     "module": "CommonJS",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "rootDir": ".",
     "outDir": "./dist",
     "declaration": true,
-    "declarationDir": "./dist",
     "declarationMap": true,
   },
   "include": [
-    "src/test/server.ts",
-    "src/test/client.ts",
-    "src/test/transform.ts"
+    "test/*.ts",
   ],
   "exclude": ["node_modules", "dist"]
 }
